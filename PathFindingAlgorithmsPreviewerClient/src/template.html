@@ -1,17 +1,108 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-          integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-          crossorigin="anonymous"
-          referrerpolicy="no-referrer" />
-    <title>Path Finding Algorithms Previewer</title>
+    <link rel="stylesheet" href="https://bootswatch.com/5/cerulean/bootstrap.min.css">
+    <title>Algorithms previewer</title>
 </head>
 <body>
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand m-2" href="#">Algorithms previewer</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse m-2" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item primary-item">
+                <a class="nav-link requires-modal" id="finding-path" href="#" data-bs-toggle="modal" data-bs-target="#finding-path-modal">Finding Path </a>
+            </li>
+            <li class="nav-item primary-item">
+                <a class="nav-link requires-modal" id="sorting" href="#" data-bs-toggle="modal" data-bs-target="#sorting-modal">Sorting</a>
+            </li>
+            <div class="additional-menus">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Reset</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Change Data</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Algorithms
+                    </a>
+                    <div class="dropdown-menu algorithms-dropdown" aria-labelledby="navbarDropdown">
+                    </div>
+                </li>
+            </div>
+        </ul>
+    </div>
+
+</nav>
+<canvas></canvas>
+<div class="modal" tabindex="-1" role="dialog" id="finding-path-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Presets</h5>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation presets-form was-validated" novalidate>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-submit="modal">Generate</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal modal-main" tabindex="-1" role="dialog" id="sorting-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Presets</h5>
+            </div>
+            <form class="presets-form needs-validation" novalidate>
+                <div class="modal-body">
+                        <div class="my-3">
+                            <label for="elements-number" class="form-label">Number of elements</label>
+                            <input type="number" placeholder="Range: 1-100" class="form-control" id="elements-number" min="1" max="100" required>
+                            <div class="invalid-feedback">
+                                Must be in 1 to 100 range
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col my-3">
+                                <label for="lower-bound" class="form-label">Lower Boundary</label>
+                                <input type="number" placeholder="Range: 10-100" class="form-control" id="lower-bound" min="10" max="100" required>
+                                <div class="invalid-feedback">
+                                    Must be in 10 to 100 range
+                                </div>
+                            </div>
+                            <div class="col my-3">
+                                <label for="upper-bound" class="form-label">Upper Boundary</label>
+                                <input type="number" placeholder="Range: 10-100" class="form-control" id="upper-bound" min="10" max="100" required>
+                                <div class="invalid-feedback">
+                                    Must be in 10 to 100 range
+                                </div>
+                            </div>
+                            <small class="text-muted">
+                                If 'lower-boundary' < 'upper-boundary' - sort ascending <br>
+                                If 'upper-boundary' < 'lower-boundary' - sort descending
+                            </small>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">Generate</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>
