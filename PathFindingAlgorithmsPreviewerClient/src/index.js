@@ -14,6 +14,7 @@ let initCanvas = (function (){
     canvas.width = window.innerWidth;
 })();
 const baseHeight = canvas.height / 12; // this should be global only for sorting algorithm;
+let columnsArray = [];
 
 document.querySelector('#sorting-modal')
     .querySelector('.presets-form')
@@ -67,7 +68,10 @@ function drawCanvas_Sorting(array) {
                 widthOfTheColumn,
                 heightOfTheColumnUnit * elem,
                 "grey"))
-        .forEach(column => column.draw())
+        .forEach(column => {
+            columnsArray.push(column)
+            column.draw()
+        })
 }
 
 function processSubmitOfSortingRequest(event) {
@@ -90,7 +94,7 @@ function revealNavbarAdditionalMenus() {
 }
 
 function sendRequestToServer(endpoint, collection) {
-    console.log(endpoint);
+    console.log(endpoint, collection);
     axios.post(apiPath + endpoint, collection).then(res => visualiseAlgorithm(res));
 }
 
@@ -107,8 +111,41 @@ function fillAlgorithmDropdownAndAddListeners(algorithmsArray, collection) {
     });
 }
 // TODO: Add active class to nav-item when selected
-function visualiseAlgorithm(responseFromServer) {
-    console.log(responseFromServer);
+async function visualiseAlgorithm(responseFromServer) {
+    console.log(responseFromServer.data);
+    for (const iteration of responseFromServer.data) {
+        await displayIteration(iteration.swapsRecord);
+    }
+}
+
+async function displayIteration(swapsForIteration) {
+    let idx = 0;
+    for (const shouldSwap of swapsForIteration) {
+        await drawColumns(shouldSwap, idx++).then(res => {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            drawBaseLine();
+            columnsArray.forEach(column => {
+                column.draw();
+                column.setColor("grey");
+            });
+        });
+    }
+    columnsArray.forEach(c => c.draw()); // hack
+}
+
+function drawColumns(toSwap, index){
+    return new Promise(resolve => setTimeout(() => {
+        let color;
+        if(toSwap){
+            color = "red";
+            let temp = columnsArray[index].getHeight();
+            columnsArray[index].setHeight(columnsArray[index + 1].getHeight());
+            columnsArray[index + 1].setHeight(temp);
+        } else color = "blue"
+        columnsArray[index].setColor(color);
+        columnsArray[index + 1].setColor(color);
+        resolve()
+    }, 30))
 }
 
 class CanvasColumnElement {
@@ -119,10 +156,21 @@ class CanvasColumnElement {
         this.height = height;
         this.color = color;
     }
+
     draw() {
         context.beginPath();
         context.rect(this.x, this.y, this.width, this.height);
         context.fillStyle = this.color;
         context.fill();
+    }
+
+    getHeight() {
+        return this.height;
+    }
+    setHeight(h) {
+        this.height = h;
+    }
+    setColor(c) {
+        this.color = c;
     }
 }
