@@ -21,21 +21,19 @@
             <li class="nav-item primary-item">
                 <a class="nav-link requires-modal" id="sorting" href="#" data-bs-toggle="modal" data-bs-target="#sorting-modal">Sorting</a>
             </li>
-            <div class="additional-menus">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Reset</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Change Data</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Algorithms
-                    </a>
-                    <div class="dropdown-menu algorithms-dropdown" aria-labelledby="navbarDropdown">
-                    </div>
-                </li>
-            </div>
+            <li class="nav-item additional-menu">
+                <a class="nav-link" href="#">Reset</a>
+            </li>
+            <li class="nav-item additional-menu">
+                <a class="nav-link" href="#">Change Data</a>
+            </li>
+            <li class="nav-item additional-menu dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Algorithms
+                </a>
+                <div class="dropdown-menu algorithms-dropdown" aria-labelledby="navbarDropdown">
+                </div>
+            </li>
         </ul>
     </div>
 
@@ -79,21 +77,17 @@
                             <div class="col my-3">
                                 <label for="lower-bound" class="form-label">Lower Boundary</label>
                                 <input type="number" placeholder="Range: 10-100" class="form-control" id="lower-bound" min="10" max="100" required>
-                                <div class="invalid-feedback">
-                                    Must be in 10 to 100 range
+                                <div class="invalid-feedback range">
+                                    Must be in 10 to 100 range and lower or equal to upper boundary
                                 </div>
                             </div>
                             <div class="col my-3">
                                 <label for="upper-bound" class="form-label">Upper Boundary</label>
                                 <input type="number" placeholder="Range: 10-100" class="form-control" id="upper-bound" min="10" max="100" required>
-                                <div class="invalid-feedback">
-                                    Must be in 10 to 100 range
+                                <div class="invalid-feedback range">
+                                    Must be in 10 to 100 range and bigger or equal lower boundary
                                 </div>
                             </div>
-                            <small class="text-muted">
-                                If 'lower-boundary' < 'upper-boundary' - sort ascending <br>
-                                If 'upper-boundary' < 'lower-boundary' - sort descending
-                            </small>
                         </div>
                 </div>
                 <div class="modal-footer">
