@@ -1,31 +1,30 @@
 package com.example.pathfindingalgorithmspreviewer.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Data
 public class BubbleSortIteration {
     public BubbleSortIteration(BubbleSortIteration iteration) {
         this.collection = new ArrayList<>(iteration.getCollection());
-        this.swapsRecord = new ArrayList<>();
+        this.iterationSteps = new ArrayList<>();
         this.numberOfElementsToSort = iteration.getNumberOfElementsToSort();
     }
-    public BubbleSortIteration(ArrayList<Boolean> swapsRecord, ArrayList<Integer> collection) {
-        this.swapsRecord = new ArrayList<>(swapsRecord);
+    public BubbleSortIteration(ArrayList<Boolean> iterationSteps, ArrayList<Integer> collection) {
+        this.iterationSteps = new ArrayList<>(iterationSteps);
         this.collection = new ArrayList<>(collection);
         this.numberOfElementsToSort = collection.size();
     }
-    private ArrayList<Boolean> swapsRecord;
+    private ArrayList<Boolean> iterationSteps;
     private ArrayList<Integer> collection;
     private static Boolean sorted;
     @Getter
+    // TODO: this should be limited be last occurrence of false, from previous iteration.
     private int numberOfElementsToSort;
     private void decrementNumberOfElementsToSort() { numberOfElementsToSort--; }
     public static Boolean isSorted() { return sorted; }
@@ -36,8 +35,8 @@ public class BubbleSortIteration {
             if (collection.get(i - 1) > collection.get(i)) {
                 sorted = Boolean.FALSE;
                 Collections.swap(collection, i - 1, i);
-                swapsRecord.add(Boolean.TRUE);
-            } else swapsRecord.add(Boolean.FALSE);
+                iterationSteps.add(Boolean.TRUE);
+            } else iterationSteps.add(Boolean.FALSE);
         decrementNumberOfElementsToSort();
     }
 }
