@@ -43,8 +43,17 @@ function processSubmitOfSortingRequest(event) {
 
 }
 
+function resetAlgorithm() {
+    document.querySelectorAll(".additional-menu").forEach(menu => menu.style.display = "none");
+    algorithmVisualisation.clearCanvas();
+    algorithmVisualisation = null;
+}
+
 function revealNavbarAdditionalMenus() {
     document.querySelectorAll(".additional-menu").forEach(menu => menu.style.display = "inline");
+    document.querySelector(".change-data").addEventListener("click",
+        () => bootstrap.Modal.getInstance(document.querySelector('#sorting-modal')).show());
+    document.querySelector(".reset-alg").addEventListener("click", () => resetAlgorithm());
 }
 
 function fillAlgorithmDropdownAndAddListeners(algorithmsArray) {

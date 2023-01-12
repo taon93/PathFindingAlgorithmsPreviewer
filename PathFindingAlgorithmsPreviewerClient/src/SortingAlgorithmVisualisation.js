@@ -47,11 +47,13 @@ export class SortingAlgorithmVisualisation {
 
     async displayIteration(iteration, algorithmHandlerCallback) {
         for(let i = 0; i < iteration.length; i++) {
-            await new Promise(resolve => setTimeout(resolve, 30)).then(() => {
-                this.canvasColumnsArray = algorithmHandlerCallback(
-                    {step: iteration[i], index: i}, this.canvasColumnsArray);
-                this.drawCollection();
-            });
+            await new Promise(resolve =>
+                setTimeout(resolve, document.querySelector("#time-interval").value))
+                .then(() => {
+                    this.canvasColumnsArray = algorithmHandlerCallback(
+                        {step: iteration[i], index: i}, this.canvasColumnsArray);
+                    this.drawCollection();
+                });
         }
         this.canvasColumnsArray.forEach(elem => elem.setColor("grey"))
         this.drawCollection();
@@ -97,9 +99,9 @@ export class SortingAlgorithmVisualisation {
             .forEach(column => this.canvasColumnsArray.push(column)) // this may be dangerous
         this.drawCollection();
     }
-
+    clearCanvas() { this.canvasInterface.clearCanvas(); }
     drawCollection() {
-        this.canvasInterface.clearCanvas();
+        this.clearCanvas();
         this.drawBaseLine();
         const ctx = this.canvasInterface.getContext();
 
