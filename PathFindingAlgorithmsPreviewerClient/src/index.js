@@ -40,11 +40,26 @@ function processSubmitOfSortingRequest(event) {
         bootstrap.Modal.getInstance(document.querySelector('#sorting-modal')).hide();
     }
     event.target.classList.add('was-validated');
+    let findingPathLink = document.querySelector("#finding-path");
+    findingPathLink.setAttribute("aria-disabled", "true");
+    findingPathLink.classList.add("disabled");
+    let sorting = document.querySelector("#sorting");
+    sorting.setAttribute("aria-current", "page");
+    sorting.classList.add("active");
+}
 
+function unmarkNavbarMenus(child) {
+    child.setAttribute("aria-disabled", "false");
+    child.setAttribute("aria-current", "false");
+    child.classList.remove("active");
+    child.classList.remove("disabled");
 }
 
 function resetAlgorithm() {
     document.querySelectorAll(".additional-menu").forEach(menu => menu.style.display = "none");
+    document.querySelectorAll(".primary-item")
+        .forEach(elem => unmarkNavbarMenus(elem.firstElementChild));
+
     algorithmVisualisation.clearCanvas();
     algorithmVisualisation = null;
 }
@@ -69,7 +84,6 @@ function fillAlgorithmDropdownAndAddListeners(algorithmsArray) {
             createAlgorithmHandler(event.target.textContent);
             sendRequestToServer( algorithmHandler.getEndpoint(), algorithmVisualisation.getCollection());
         })
-
     });
 }
 function createAlgorithmHandler(algorithmName) {
@@ -82,5 +96,3 @@ function sendRequestToServer(endpoint, collection) {
     axios.post(endpoint, collection).then(
         res => algorithmVisualisation.visualiseAlgorithm(res, algorithmHandler.getProcessIterationStep()));
 }
-
-// TODO: Add active class to nav-item when selected
