@@ -2,7 +2,8 @@ import './style/main.scss';
 import * as bootstrap from 'bootstrap';
 import axios from 'axios';
 import {SortingAlgorithmVisualisation} from "./SortingAlgorithmVisualisation";
-import {BubbleSortVisualiser} from "./BubbleSortVisualiser";
+import {BubblesortVisualiser} from "./BubblesortVisualiser";
+import {QuicksortVisualiser} from "./QuicksortVisualiser";
 import * as utils from "./utils";
 
 const apiPath = 'http://localhost:8080/';
@@ -26,6 +27,17 @@ function checkInputBoundaries(form) {
     }
 }
 
+function applyDisabledLookOnMenu(submenuId) {
+    let findingPathLink = document.querySelector(submenuId);
+    findingPathLink.setAttribute("aria-disabled", "true");
+    findingPathLink.classList.add("disabled");
+}
+function applyActiveLookOnMenu(submenuId) {
+    let sorting = document.querySelector(submenuId);
+    sorting.setAttribute("aria-current", "page");
+    sorting.classList.add("active");
+}
+
 function processSubmitOfSortingRequest(event) {
     event.preventDefault();
     checkInputBoundaries(event.target);
@@ -36,16 +48,12 @@ function processSubmitOfSortingRequest(event) {
         algorithmVisualisation = new SortingAlgorithmVisualisation(event.target);
         revealNavbarAdditionalMenus();
         fillAlgorithmDropdownAndAddListeners(
-            ["bubble-sort", "quicksort", "merge-sort", "heapsort"]);
+            ["bubble-sort", "quick-sort", "merge-sort", "heap-sort"]);
         bootstrap.Modal.getInstance(document.querySelector('#sorting-modal')).hide();
     }
     event.target.classList.add('was-validated');
-    let findingPathLink = document.querySelector("#finding-path");
-    findingPathLink.setAttribute("aria-disabled", "true");
-    findingPathLink.classList.add("disabled");
-    let sorting = document.querySelector("#sorting");
-    sorting.setAttribute("aria-current", "page");
-    sorting.classList.add("active");
+    applyDisabledLookOnMenu("#finding-path");
+    applyActiveLookOnMenu("#sorting");
 }
 
 function unmarkNavbarMenus(child) {
@@ -59,7 +67,7 @@ function resetAlgorithm() {
     document.querySelectorAll(".additional-menu").forEach(menu => menu.style.display = "none");
     document.querySelectorAll(".primary-item")
         .forEach(elem => unmarkNavbarMenus(elem.firstElementChild));
-
+    document.querySelectorAll(".dropdown-item").forEach(elem => elem.outerHTML = "");
     algorithmVisualisation.clearCanvas();
     algorithmVisualisation = null;
 }
@@ -88,7 +96,10 @@ function fillAlgorithmDropdownAndAddListeners(algorithmsArray) {
 }
 function createAlgorithmHandler(algorithmName) {
     switch(algorithmName) {
-        case "bubble-sort" : algorithmHandler = new BubbleSortVisualiser(apiPath);
+        case "bubble-sort" : algorithmHandler = new BubblesortVisualiser(apiPath);
+            break;
+        case "quick-sort" : algorithmHandler = new QuicksortVisualiser(apiPath);
+            break;
         // TODO: "quicksort", "merge-sort", "heapsort"
     }
 }

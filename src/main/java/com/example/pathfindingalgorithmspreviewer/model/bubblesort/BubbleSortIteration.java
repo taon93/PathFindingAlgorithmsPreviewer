@@ -1,4 +1,4 @@
-package com.example.pathfindingalgorithmspreviewer.model;
+package com.example.pathfindingalgorithmspreviewer.model.bubblesort;
 
 import lombok.Data;
 import lombok.Getter;

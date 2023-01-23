@@ -1,35 +1,28 @@
 package com.example.pathfindingalgorithmspreviewer.controller;
 
-import com.example.pathfindingalgorithmspreviewer.model.BubbleSortIteration;
+import com.example.pathfindingalgorithmspreviewer.model.quicksort.QuicksortPartitionResult;
+import com.example.pathfindingalgorithmspreviewer.service.BubblesortService;
+import com.example.pathfindingalgorithmspreviewer.service.QuicksortService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
 @CrossOrigin(origins = "*")
 public class AlgorithmVisualisationController {
     @PostMapping("/sort/bubble-sort")
-    public List<List<Boolean>> createBubbleSortIterations(@RequestBody ArrayList<Integer> sortRequest) {
-        List<BubbleSortIteration> result = new ArrayList<>();
-        BubbleSortIteration firstIteration =
-                new BubbleSortIteration(new ArrayList<>(sortRequest.size() - 1), sortRequest);
-        BubbleSortIteration.setSorted(Boolean.FALSE);
-        result.add(firstIteration);
-        return bubbleSort(result);
+    public List<List<Boolean>> createBubblesortIterations(@RequestBody ArrayList<Integer> sortRequest) {
+        BubblesortService bubblesortService = new BubblesortService(sortRequest);
+        return bubblesortService.bubblesort();
     }
-    private List<List<Boolean>> bubbleSort(List<BubbleSortIteration> algorithmIterations) {
-        do {
-            BubbleSortIteration nextIteration =
-                new BubbleSortIteration(algorithmIterations.get(algorithmIterations.size() - 1));
-            nextIteration.sort();
-            algorithmIterations.add(nextIteration);
-        } while(!BubbleSortIteration.isSorted());
-        return algorithmIterations.stream()
-                .map(BubbleSortIteration::getIterationSteps)
-                .collect(Collectors.toList());
+
+    @PostMapping("/sort/quick-sort")
+    public List<List<QuicksortPartitionResult>> createQuicksortIterations(
+            @RequestBody ArrayList<Integer> sortRequest) {
+        QuicksortService quicksortService = new QuicksortService(sortRequest);
+        return quicksortService.quicksort();
     }
 }

@@ -1,4 +1,4 @@
-export class BubbleSortVisualiser {
+export class BubblesortVisualiser {
     constructor(apiPath) {
         this.apiPath = apiPath + "sort/bubble-sort";
     }
