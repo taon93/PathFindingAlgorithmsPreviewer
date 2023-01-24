@@ -5,6 +5,7 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 public class Partition {
@@ -12,14 +13,14 @@ public class Partition {
         this.inputSubCollection = new ArrayList<>(inputSubCollection);
         this.nonRelativePartitionStartIndex = nonRelativeCollectionStartIndex;
         this.sorted = inputSubCollection.size() < 2 ? Boolean.TRUE : Boolean.FALSE;
-        this.transformationMap = new ArrayList<>();
+        this.results = new ArrayList<>();
         this.pivotIndex = inputSubCollection.size() - 1;
     }
     public Partition(Partition partition) {
         this.pivotIndex = partition.getInputSubCollection().size() - 1;
         this.sorted = pivotIndex < 2 ? Boolean.TRUE : Boolean.FALSE;
         this.inputSubCollection = new ArrayList<>(partition.getInputSubCollection());
-        this.transformationMap = new ArrayList<>();
+        this.results = new ArrayList<>();
         this.nonRelativePartitionStartIndex = partition.getNonRelativePartitionStartIndex();
     }
 
@@ -28,7 +29,7 @@ public class Partition {
     private List<Integer> inputSubCollection;
     private Partition greaterThanPivot;
     private Partition smallerThanPivot;
-    private List<ElementInRespectToPivot> transformationMap;
+    private List<QuicksortPartitionResult> results;
     private final int nonRelativePartitionStartIndex;
     public Integer getNonRelativeIndex(Integer relativeIndex) {
         return nonRelativePartitionStartIndex + relativeIndex;
@@ -36,16 +37,22 @@ public class Partition {
     public void sort() {
         Integer pivot = inputSubCollection.get(pivotIndex);
         int pivotNewIndex = 0;
+        Integer indexFrom = nonRelativePartitionStartIndex;
+        Integer indexTo = nonRelativePartitionStartIndex;
+        int nonRelativePivotIndex = pivotIndex + nonRelativePartitionStartIndex;
         for(int i = 0; i < pivotIndex; i++){
             if(inputSubCollection.get(i) > pivot) {
-                transformationMap.add(ElementInRespectToPivot.Bigger);
+                results.add(new QuicksortPartitionResult(indexFrom, Optional.empty(), nonRelativePivotIndex));
             }
             else {
-                transformationMap.add(ElementInRespectToPivot.Smaller);
+                results.add(new QuicksortPartitionResult(indexFrom, Optional.of(indexTo), nonRelativePivotIndex));
                 Collections.swap(inputSubCollection, pivotNewIndex, i);
                 pivotNewIndex++;
+                indexTo++;
             }
+            indexFrom++;
         }
+        results.add(new QuicksortPartitionResult(indexFrom, Optional.of(indexTo), nonRelativePivotIndex));
         Collections.swap(inputSubCollection, pivotNewIndex, pivotIndex);
         smallerThanPivot = new Partition(
             inputSubCollection.subList(0, pivotNewIndex), getNonRelativeIndex(0));

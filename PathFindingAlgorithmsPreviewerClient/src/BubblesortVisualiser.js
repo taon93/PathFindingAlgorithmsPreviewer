@@ -3,11 +3,10 @@ export class BubblesortVisualiser {
         this.apiPath = apiPath + "sort/bubble-sort";
     }
     apiPath;
-    processIterationStep = function (subiteration, columnsArray) {
+    processIterationStep = function (step, index, columnsArray) {
         let color = "grey";
-        const index = subiteration.index;
         columnsArray.forEach(column => column.setColor(color));
-        if(subiteration.step) {
+        if(step) {
             color = "red";
             let temp = columnsArray[index].getHeight();
             columnsArray[index].setHeight(columnsArray[index + 1].getHeight());

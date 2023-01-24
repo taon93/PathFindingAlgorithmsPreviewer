@@ -28,6 +28,7 @@ export class SortingAlgorithmVisualisation {
     }
 
     async visualiseAlgorithm(responseFromServer, callback) {
+        console.log(responseFromServer.data);
         for (const iteration of responseFromServer.data) {
             await this.displayIteration(iteration, callback);
         }
@@ -51,7 +52,7 @@ export class SortingAlgorithmVisualisation {
                 setTimeout(resolve, document.querySelector("#time-interval").value))
                 .then(() => {
                     this.canvasColumnsArray = algorithmHandlerCallback(
-                        {step: iteration[i], index: i}, this.canvasColumnsArray);
+                        iteration[i], i, this.canvasColumnsArray);
                     this.drawCollection();
                 });
         }

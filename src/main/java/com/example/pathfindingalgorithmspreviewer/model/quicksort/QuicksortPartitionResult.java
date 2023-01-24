@@ -1,7 +1,5 @@
 package com.example.pathfindingalgorithmspreviewer.model.quicksort;
 
-import java.util.List;
+import java.util.Optional;
 
-public record QuicksortPartitionResult(List<ElementInRespectToPivot> elements,
-                                       Integer nonRelativePartitionStartIndex) {
-}
+public record QuicksortPartitionResult(Integer indexFrom, Optional<Integer> indexTo, Integer pivotIndex) {}

@@ -17,15 +17,11 @@ public class QuicksortService {
     public Iteration getLastIteration() { return algorithmIterations.get(algorithmIterations.size() -1); }
 
 
-    public List<List<QuicksortPartitionResult>> quicksort() {
+    public List<List<QuicksortPartitionResult>> quicksort() { // List of Iterations, each Iteration consisting with a list of steps.
         Iteration currentIteration = getLastIteration();
         if(currentIteration.isSorted()) {
             return algorithmIterations.stream()
-                    .map(iteration -> iteration.getInputPartitions().stream()
-                            .map(partition -> new QuicksortPartitionResult(
-                                    partition.getTransformationMap(),
-                                    partition.getNonRelativePartitionStartIndex()))
-                            .toList())
+                    .flatMap(iteration -> iteration.getInputPartitions().stream().map(Partition::getResults))
                     .toList();}
         algorithmIterations.add(new Iteration(currentIteration.processIteration()));
         return quicksort();

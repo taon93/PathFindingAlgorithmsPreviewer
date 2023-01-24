@@ -3,24 +3,16 @@ export class QuicksortVisualiser {
         this.apiPath = apiPath + "sort/quick-sort";
     }
     apiPath;
-    processIterationStep = function (subiteration, columnArray) {
-        console.log(subiteration);
-        const relativeStart = subiteration.step.nonRelativePartitionStartIndex;
-        let indexToSwap = subiteration.step.nonRelativePartitionStartIndex;
-        const iterationLength = subiteration.step.elements.length;
-        for(let i = 0; i < iterationLength; i++) {
-            if (subiteration.step.elements[i] === "Smaller") {
-                columnArray = QuicksortVisualiser.swapColumnsHeight(
-                    columnArray,
-                    relativeStart + i,
-                    indexToSwap);
-                indexToSwap++;
-            }
+    processIterationStep = function (iterationStep, index, columnArray) {
+        columnArray.forEach(column => column.setColor("grey"));
+        columnArray[iterationStep.pivotIndex].setColor("orange");
+        if(iterationStep.indexTo != null){
+            columnArray[iterationStep.indexTo].setColor("green");
+            columnArray[iterationStep.indexFrom].setColor("blue");
+            columnArray = QuicksortVisualiser.swapColumnsHeight(columnArray, iterationStep.indexFrom, iterationStep.indexTo);
+        } else {
+            columnArray[iterationStep.indexFrom].setColor("red");
         }
-        columnArray = QuicksortVisualiser.swapColumnsHeight(
-            columnArray,
-            relativeStart + iterationLength,
-            indexToSwap);
         return columnArray;
     }
     getEndpoint() { return this.apiPath; }

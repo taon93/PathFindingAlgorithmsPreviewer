@@ -100,7 +100,7 @@ function createAlgorithmHandler(algorithmName) {
             break;
         case "quick-sort" : algorithmHandler = new QuicksortVisualiser(apiPath);
             break;
-        // TODO: "quicksort", "merge-sort", "heapsort"
+        // TODO: "merge-sort", "heapsort"
     }
 }
 function sendRequestToServer(endpoint, collection) {
