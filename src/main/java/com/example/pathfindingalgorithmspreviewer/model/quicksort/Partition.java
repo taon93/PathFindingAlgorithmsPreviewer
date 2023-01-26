@@ -29,7 +29,7 @@ public class Partition {
     private List<Integer> inputSubCollection;
     private Partition greaterThanPivot;
     private Partition smallerThanPivot;
-    private List<QuicksortPartitionResult> results;
+    private List<QuicksortStep> results;
     private final int nonRelativePartitionStartIndex;
     public Integer getNonRelativeIndex(Integer relativeIndex) {
         return nonRelativePartitionStartIndex + relativeIndex;
@@ -42,17 +42,17 @@ public class Partition {
         int nonRelativePivotIndex = pivotIndex + nonRelativePartitionStartIndex;
         for(int i = 0; i < pivotIndex; i++){
             if(inputSubCollection.get(i) > pivot) {
-                results.add(new QuicksortPartitionResult(indexFrom, Optional.empty(), nonRelativePivotIndex));
+                results.add(new QuicksortStep(indexFrom, Optional.empty(), nonRelativePivotIndex));
             }
             else {
-                results.add(new QuicksortPartitionResult(indexFrom, Optional.of(indexTo), nonRelativePivotIndex));
+                results.add(new QuicksortStep(indexFrom, Optional.of(indexTo), nonRelativePivotIndex));
                 Collections.swap(inputSubCollection, pivotNewIndex, i);
                 pivotNewIndex++;
                 indexTo++;
             }
             indexFrom++;
         }
-        results.add(new QuicksortPartitionResult(indexFrom, Optional.of(indexTo), nonRelativePivotIndex));
+        results.add(new QuicksortStep(indexFrom, Optional.of(indexTo), nonRelativePivotIndex));
         Collections.swap(inputSubCollection, pivotNewIndex, pivotIndex);
         smallerThanPivot = new Partition(
             inputSubCollection.subList(0, pivotNewIndex), getNonRelativeIndex(0));

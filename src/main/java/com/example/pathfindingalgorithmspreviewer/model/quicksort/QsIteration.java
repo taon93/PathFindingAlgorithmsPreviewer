@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class Iteration {
-    public Iteration(List<Partition> input) {
+public class QsIteration {
+    public QsIteration(List<Partition> input) {
         this.inputPartitions = input;
         outputPartitions = new ArrayList<>();
     }

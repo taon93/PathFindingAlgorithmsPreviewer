@@ -4,7 +4,9 @@ import axios from 'axios';
 import {SortingAlgorithmVisualisation} from "./SortingAlgorithmVisualisation";
 import {BubblesortVisualiser} from "./BubblesortVisualiser";
 import {QuicksortVisualiser} from "./QuicksortVisualiser";
+import {MergesortVisualiser} from "./MergesortVisualiser";
 import * as utils from "./utils";
+
 
 const apiPath = 'http://localhost:8080/';
 let algorithmVisualisation;
@@ -48,7 +50,7 @@ function processSubmitOfSortingRequest(event) {
         algorithmVisualisation = new SortingAlgorithmVisualisation(event.target);
         revealNavbarAdditionalMenus();
         fillAlgorithmDropdownAndAddListeners(
-            ["bubble-sort", "quick-sort", "merge-sort", "heap-sort"]);
+            ["bubblesort", "quicksort", "mergesort", "heapsort"]);
         bootstrap.Modal.getInstance(document.querySelector('#sorting-modal')).hide();
     }
     event.target.classList.add('was-validated');
@@ -96,10 +98,11 @@ function fillAlgorithmDropdownAndAddListeners(algorithmsArray) {
 }
 function createAlgorithmHandler(algorithmName) {
     switch(algorithmName) {
-        case "bubble-sort" : algorithmHandler = new BubblesortVisualiser(apiPath);
+        case "bubblesort" : algorithmHandler = new BubblesortVisualiser(apiPath);
             break;
-        case "quick-sort" : algorithmHandler = new QuicksortVisualiser(apiPath);
+        case "quicksort" : algorithmHandler = new QuicksortVisualiser(apiPath);
             break;
+        case "mergesort" : algorithmHandler = new MergesortVisualiser(apiPath);
         // TODO: "merge-sort", "heapsort"
     }
 }

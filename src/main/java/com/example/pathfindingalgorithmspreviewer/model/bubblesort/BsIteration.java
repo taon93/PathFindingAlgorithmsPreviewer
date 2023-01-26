@@ -9,13 +9,13 @@ import java.util.Collections;
 
 @RequiredArgsConstructor
 @Data
-public class BubbleSortIteration {
-    public BubbleSortIteration(BubbleSortIteration iteration) {
+public class BsIteration {
+    public BsIteration(BsIteration iteration) {
         this.collection = new ArrayList<>(iteration.getCollection());
         this.iterationSteps = new ArrayList<>();
         this.numberOfElementsToSort = iteration.getNumberOfElementsToSort();
     }
-    public BubbleSortIteration(ArrayList<Boolean> iterationSteps, ArrayList<Integer> collection) {
+    public BsIteration(ArrayList<Boolean> iterationSteps, ArrayList<Integer> collection) {
         this.iterationSteps = new ArrayList<>(iterationSteps);
         this.collection = new ArrayList<>(collection);
         this.numberOfElementsToSort = collection.size();
